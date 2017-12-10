@@ -42,21 +42,14 @@ timer gravTick = {0, 500, 1};
 timer textDisplay = {0, 250, 1};
 
 Enemy E1(1);
-Enemy E2(1);
-Enemy E3(1);
-Enemy E4(1);
-Enemy E5(1);
-Enemy E6(1);
-
 
 char* oStr;
 
 void setup() {
 	gb.begin();
-	gb.setFrameRate(40);
+	gb.setFrameRate(20);
 	Serial.begin(250000);
 	Serial.println(EEPROM.length());
-
 	titleScreen();
 }
 
@@ -88,6 +81,7 @@ void loop() {
 				break;
 				case 5:
 					resetBall(0);
+					E1.reset(1);
 				break;
 			}
 		}
@@ -130,13 +124,6 @@ void loop() {
 		////////
 
 		E1.update(gb);
-		E2.update(gb);
-		E3.update(gb);
-		E4.update(gb);
-		E5.update(gb);
-		E6.update(gb);
-
-		Serial.println(gb.frameDurationMicros);
 	}
 
 	if(gb.buttons.held(BTN_C, 10)) titleScreen();
@@ -161,9 +148,10 @@ void resetBall(bool enableV){
 
 void titleScreen(){
 	resetBall(0);
-    gb.titleScreen(F("Gravity physics demo"), logo);
+    gb.titleScreen(F("Gravity shenanigans"), logo);
 	gb.battery.show = 0;
 }
+
 
 bool clampBounds(double &val, double high, double low){
 	if(val >= high){
